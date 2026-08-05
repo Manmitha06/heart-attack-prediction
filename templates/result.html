@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Heart Risk Result</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <header>
+    <div class="header-icon">❤️</div>
+    <h1>Heart Attack Risk Checker</h1>
+    <p class="header-sub">Your result is ready</p>
+  </header>
+
+  <div class="card result-card">
+
+    {% if level == 'error' %}
+      <!-- ── Error state ── -->
+      <div class="result-emoji">⚠️</div>
+      <h2 class="result-title" style="color:#c0392b;">Something went wrong</h2>
+      <p class="result-message">{{ prediction }}</p>
+
+    {% else %}
+      <!-- ── Emoji + Title ── -->
+      {% if level == 'low' %}
+        <div class="result-emoji">✅</div>
+        <h2 class="result-title low">Low Risk</h2>
+      {% elif level == 'medium' %}
+        <div class="result-emoji">⚠️</div>
+        <h2 class="result-title medium">Moderate Risk</h2>
+      {% else %}
+        <div class="result-emoji">🚨</div>
+        <h2 class="result-title high">High Risk</h2>
+      {% endif %}
+
+      <!-- ── Risk meter ── -->
+      {% if risk_pct is not none %}
+      <div class="risk-meter">
+        <div class="risk-track">
+          <div class="risk-fill" style="width: {{ [risk_pct, 100] | min }}%"></div>
+          <div class="risk-needle" style="left: {{ [risk_pct, 99] | min }}%"></div>
+        </div>
+        <div class="risk-labels">
+          <span>Low</span><span>Medium</span><span>High</span>
+        </div>
+        <div class="risk-pct">{{ risk_pct }}%</div>
+        <div class="risk-pct-label">estimated chance of heart attack</div>
+      </div>
+      {% endif %}
+
+      <!-- ── Result message ── -->
+      <div class="result-message {{ level }}">
+        {% if level == 'low' %}
+          Your risk of a heart attack appears <strong>LOW</strong>. Keep up your healthy habits!
+        {% elif level == 'medium' %}
+          Your risk of a heart attack is <strong>MODERATE</strong>. Please see a doctor soon for a check-up.
+        {% else %}
+          Your risk of a heart attack is <strong>HIGH</strong>. Please see a doctor as soon as possible.
+        {% endif %}
+      </div>
+
+      <!-- ── What to do ── -->
+      <div class="advice-wrap">
+        <div class="advice-title">📋 What you should do:</div>
+        <ul class="advice-list {{ level }}">
+          {% if level == 'low' %}
+            <li>Keep eating healthy food — vegetables, fruits, and grains.</li>
+            <li>Stay active — a 30-minute walk every day helps your heart.</li>
+            <li>Get a health check-up at least once a year.</li>
+            <li>Avoid smoking and limit alcohol.</li>
+            <li>Manage stress — rest, sleep 7–8 hours, talk to loved ones.</li>
+          {% elif level == 'medium' %}
+            <li>Visit a doctor or health worker for a full check-up soon.</li>
+            <li>Check your blood pressure and sugar levels regularly.</li>
+            <li>Reduce oily, salty, and fried food in your meals.</li>
+            <li>Try to walk or exercise at least 30 minutes every day.</li>
+            <li>Stop smoking if you do, and reduce alcohol.</li>
+            <li>Tell your doctor about any chest discomfort or breathlessness.</li>
+          {% else %}
+            <li>⚡ Go to a hospital or doctor <strong>as soon as possible</strong>.</li>
+            <li>Tell your doctor about any chest pain, breathlessness, or fatigue.</li>
+            <li>Take all prescribed medicines regularly — do not skip them.</li>
+            <li>Avoid physical strain and rest properly.</li>
+            <li>Stop all tobacco products and avoid alcohol completely.</li>
+            <li>Reduce stress — ask family or friends to support you.</li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <!-- ── Skipped fields notice ── -->
+      {% if skipped and skipped|length > 0 %}
+      <div class="skipped-notice">
+        <strong>ℹ️ Note:</strong> {{ skipped|length }} question(s) were skipped or left blank.
+        The prediction used average values from our dataset for those fields.
+        For a more accurate result, try to fill them in with the help of a doctor.
+      </div>
+      {% endif %}
+
+    {% endif %}
+
+    <a href="/" class="btn-back">← Check Again</a>
+
+  </div>
+
+  <p class="disclaimer">
+    ⚠️ This tool is for awareness only and is <strong>not a medical diagnosis</strong>.
+    Always consult a doctor or health worker for proper advice.
+  </p>
+
+</div>
+
+</body>
+</html>

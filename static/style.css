@@ -1,0 +1,385 @@
+/* ==========================================================================
+   HEART RISK CHECKER — STYLESHEET
+   ========================================================================== */
+
+/* 1. Reset & Base
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: #f0f4f8;
+  color: #1a202c;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* 2. Page wrapper
+   ========================================================================== */
+.page-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 0 40px;
+}
+
+/* 3. Header
+   ========================================================================== */
+header {
+  background: linear-gradient(135deg, #c0392b, #e74c3c);
+  color: white;
+  text-align: center;
+  padding: 32px 24px 28px;
+}
+.header-icon { font-size: 52px; line-height: 1; margin-bottom: 10px; }
+header h1   { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.5px; }
+.header-sub { margin-top: 6px; opacity: 0.9; font-size: 1rem; }
+
+/* 4. Legend bar
+   ========================================================================== */
+.legend-bar {
+  display: flex;
+  gap: 12px;
+  padding: 12px 20px;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+/* 5. Badges
+   ========================================================================== */
+.badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.required-badge {
+  background: #fff0f0;
+  color: #c0392b;
+  border: 1px solid #f5c6c6;
+}
+.optional-badge {
+  background: #f0f7ff;
+  color: #2980b9;
+  border: 1px solid #bee3f8;
+}
+
+/* 6. Card
+   ========================================================================== */
+.card {
+  background: #fff;
+  margin: 20px 16px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+/* 7. Form sections
+   ========================================================================== */
+.form-section {
+  padding: 24px 24px 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.form-section:last-of-type { border-bottom: none; }
+
+.section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #c0392b;
+  margin-bottom: 18px;
+}
+.section-note {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #888;
+}
+
+/* 8. Field grid
+   ========================================================================== */
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+@media (max-width: 560px) {
+  .field-grid { grid-template-columns: 1fr; }
+}
+
+/* 9. Individual field
+   ========================================================================== */
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+
+/* Required fields get a subtle left border accent */
+.required-field {
+  border-left: 3px solid #e74c3c;
+  padding-left: 10px;
+}
+/* Optional fields get a blue accent */
+.optional-field {
+  border-left: 3px solid #3498db;
+  padding-left: 10px;
+}
+
+.field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2d3748;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.hint {
+  font-size: 0.78rem;
+  color: #888;
+  font-weight: 400;
+  margin-top: -2px;
+}
+
+/* 10. Inputs & Selects
+   ========================================================================== */
+input[type="number"],
+select {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #2d3748;
+  background: #fafbfc;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  transition: border 0.2s, background 0.2s;
+  appearance: none;
+}
+select {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 36px;
+}
+input[type="number"]:focus,
+select:focus {
+  border-color: #e74c3c;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+/* 11. Pill radio buttons
+   ========================================================================== */
+.pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+.pill-group input[type="radio"] { display: none; }
+.pill-group .pill {
+  cursor: pointer;
+  padding: 9px 18px;
+  border: 2px solid #d0d7de;
+  border-radius: 50px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #555;
+  background: #f7f8fa;
+  transition: all 0.18s;
+  user-select: none;
+  margin: 0;
+}
+.pill-group input[type="radio"]:checked + .pill {
+  background: #e74c3c;
+  border-color: #e74c3c;
+  color: white;
+}
+.pill-skip { border-style: dashed !important; }
+.pill-group input[type="radio"]:checked + .pill-skip {
+  background: #3498db;
+  border-color: #3498db;
+  color: white;
+}
+
+/* 12. Option list (chest pain choices)
+   ========================================================================== */
+.option-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.option-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.option-item:hover { border-color: #e74c3c; background: #fff5f5; }
+.option-item input[type="radio"] {
+  width: 16px; height: 16px;
+  margin-top: 3px;
+  flex-shrink: 0;
+  accent-color: #e74c3c;
+}
+.option-item span { display: flex; flex-direction: column; }
+.option-item strong { font-size: 0.92rem; color: #2d3748; }
+.option-item em { font-size: 0.8rem; color: #888; font-style: normal; margin-top: 1px; }
+.option-item:has(input:checked) {
+  border-color: #e74c3c;
+  background: #fff5f5;
+}
+
+/* 13. Submit area
+   ========================================================================== */
+.submit-wrap {
+  padding: 24px;
+  border-top: 1px solid #f0f0f0;
+}
+.btn-submit {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, #c0392b, #e74c3c);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.btn-submit:hover { opacity: 0.92; transform: translateY(-1px); }
+.btn-submit:active { transform: translateY(0); }
+
+.submit-note {
+  text-align: center;
+  font-size: 0.78rem;
+  color: #aaa;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* 14. Disclaimer
+   ========================================================================== */
+.disclaimer {
+  font-size: 0.78rem;
+  color: #aaa;
+  text-align: center;
+  padding: 12px 20px 32px;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   RESULT PAGE
+   ========================================================================== */
+
+/* Result card overrides */
+.result-card { padding: 32px 28px; text-align: center; }
+
+.result-emoji { font-size: 68px; line-height: 1; margin-bottom: 12px; }
+
+.result-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+.result-title.low    { color: #27ae60; }
+.result-title.medium { color: #e67e22; }
+.result-title.high   { color: #c0392b; }
+
+/* Risk meter */
+.risk-meter { margin: 4px auto 22px; max-width: 380px; }
+.risk-track {
+  height: 18px;
+  border-radius: 50px;
+  background: linear-gradient(to right, #27ae60, #f39c12, #e74c3c);
+  position: relative;
+}
+.risk-fill {
+  position: absolute;
+  inset: 0;
+  /* purely visual overlay — the gradient track acts as the fill */
+  display: none;
+}
+.risk-needle {
+  position: absolute;
+  top: -6px;
+  width: 4px;
+  height: 30px;
+  background: #1a202c;
+  border-radius: 4px;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.risk-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 5px;
+}
+.risk-pct {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #1a202c;
+  margin: 12px 0 2px;
+}
+.risk-pct-label { font-size: 0.88rem; color: #888; }
+
+/* Result message banner */
+.result-message {
+  font-size: 1rem;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin: 20px 0;
+  line-height: 1.6;
+  text-align: left;
+}
+.result-message.low    { background: #eafaf1; color: #1e8449; border-left: 4px solid #27ae60; }
+.result-message.medium { background: #fef9ef; color: #935116; border-left: 4px solid #e67e22; }
+.result-message.high   { background: #fdedec; color: #922b21; border-left: 4px solid #c0392b; }
+
+/* Advice list */
+.advice-wrap { text-align: left; margin-top: 4px; }
+.advice-title { font-weight: 700; font-size: 0.97rem; color: #2c3e50; margin-bottom: 10px; }
+.advice-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.advice-list li {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.91rem;
+  line-height: 1.5;
+}
+.advice-list.low    li { background: #eafaf1; border-left: 4px solid #27ae60; color: #1a4731; }
+.advice-list.medium li { background: #fef9ef; border-left: 4px solid #e67e22; color: #6b3a10; }
+.advice-list.high   li { background: #fdedec; border-left: 4px solid #c0392b; color: #6b1a15; }
+
+/* Skipped fields notice */
+.skipped-notice {
+  margin-top: 20px;
+  padding: 12px 16px;
+  background: #f0f7ff;
+  border: 1px solid #bee3f8;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  color: #2c5f8a;
+  text-align: left;
+  line-height: 1.6;
+}
+
+/* Back button */
+.btn-back {
+  display: block;
+  margin-top: 24px;
+  padding: 13px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #4a5568;
+  background: #edf2f7;
+  border-radius: 50px;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s;
+}
+.btn-back:hover { background: #e2e8f0; }

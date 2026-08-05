@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heart Attack Risk Checker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- ── Header ── -->
+  <header>
+    <div class="header-icon">❤️</div>
+    <h1>Heart Attack Risk Checker</h1>
+    <p class="header-sub">Answer what you know — skip what you don't</p>
+  </header>
+
+  <!-- ── Legend ── -->
+  <div class="legend-bar">
+    <span class="badge required-badge">★ Required</span>
+    <span class="badge optional-badge">◇ Optional — skip if unknown</span>
+  </div>
+
+  <!-- ── Form ── -->
+  <form action="/predict" method="POST" class="card">
+
+    <!-- ════════════ SECTION 1: About You ════════════ -->
+    <section class="form-section">
+      <div class="section-title">👤 About You</div>
+
+      <div class="field-grid">
+
+        <!-- Age — REQUIRED -->
+        <div class="field required-field">
+          <label>
+            <span class="badge required-badge">★ Required</span>
+            How old are you?
+          </label>
+          <input type="number" name="age" min="1" max="120"
+                 placeholder="e.g. 52" required>
+        </div>
+
+        <!-- Gender — REQUIRED -->
+        <div class="field required-field">
+          <label>
+            <span class="badge required-badge">★ Required</span>
+            Are you male or female?
+          </label>
+          <div class="pill-group">
+            <input type="radio" name="sex" id="male" value="1" required>
+            <label for="male" class="pill">Male</label>
+            <input type="radio" name="sex" id="female" value="0">
+            <label for="female" class="pill">Female</label>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════ SECTION 2: Chest Discomfort ════════════ -->
+    <section class="form-section">
+      <div class="section-title">💔 Chest Discomfort</div>
+
+      <!-- Chest Pain Type — REQUIRED -->
+      <div class="field required-field">
+        <label>
+          <span class="badge required-badge">★ Required</span>
+          Which best describes any chest discomfort you feel?
+        </label>
+        <div class="option-list">
+          <label class="option-item">
+            <input type="radio" name="cp" value="0" required>
+            <span>
+              <strong>No chest pain</strong>
+              <em>I feel nothing in my chest</em>
+            </span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="cp" value="1">
+            <span>
+              <strong>Sharp pain in one spot</strong>
+              <em>I can point to it with one finger</em>
+            </span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="cp" value="2">
+            <span>
+              <strong>Pressure or tightness</strong>
+              <em>Feels like something heavy on my chest</em>
+            </span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="cp" value="3">
+            <span>
+              <strong>Pain spreading outward</strong>
+              <em>Spreads to arm, jaw, neck, or shoulder</em>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Exercise Chest Pain — REQUIRED -->
+      <div class="field required-field">
+        <label>
+          <span class="badge required-badge">★ Required</span>
+          Do you get chest discomfort while walking fast or climbing stairs?
+        </label>
+        <div class="pill-group">
+          <input type="radio" name="exang" id="exang-y" value="1" required>
+          <label for="exang-y" class="pill">Yes</label>
+          <input type="radio" name="exang" id="exang-n" value="0">
+          <label for="exang-n" class="pill">No</label>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ════════════ SECTION 3: Heart & Exercise ════════════ -->
+    <section class="form-section">
+      <div class="section-title">🏃 Heart &amp; Exercise</div>
+
+      <div class="field-grid">
+
+        <!-- Max Heart Rate — REQUIRED -->
+        <div class="field required-field">
+          <label>
+            <span class="badge required-badge">★ Required</span>
+            Highest heart rate during exercise (beats per minute)
+          </label>
+          <p class="hint">From a doctor's report. Normal range: 100–190</p>
+          <input type="number" name="thalach" min="60" max="250"
+                 placeholder="e.g. 150" required>
+        </div>
+
+        <!-- Oldpeak — OPTIONAL -->
+        <div class="field optional-field">
+          <label>
+            <span class="badge optional-badge">◇ Optional</span>
+            How severe is the discomfort during physical activity?
+          </label>
+          <p class="hint">Leave blank if you don't know</p>
+          <select name="oldpeak">
+            <option value="">-- Skip this question --</option>
+            <option value="0">No discomfort at all</option>
+            <option value="1">Mild — goes away quickly</option>
+            <option value="2">Moderate — makes me slow down</option>
+            <option value="3">Severe — forces me to stop</option>
+          </select>
+        </div>
+
+        <!-- Slope — OPTIONAL -->
+        <div class="field optional-field">
+          <label>
+            <span class="badge optional-badge">◇ Optional</span>
+            Does the discomfort improve after resting?
+          </label>
+          <p class="hint">Leave blank if unsure</p>
+          <select name="slope">
+            <option value="">-- Skip this question --</option>
+            <option value="0">No change after rest</option>
+            <option value="1">Improves a little</option>
+            <option value="2">Improves a lot</option>
+          </select>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════ SECTION 4: Medical Readings ════════════ -->
+    <section class="form-section">
+      <div class="section-title">🩺 Medical Readings <span class="section-note">(from a doctor or report)</span></div>
+
+      <div class="field-grid">
+
+        <!-- Blood Pressure — OPTIONAL -->
+        <div class="field optional-field">
+          <label>
+            <span class="badge optional-badge">◇ Optional</span>
+            Resting blood pressure (top number, mmHg)
+          </label>
+          <p class="hint">e.g. if your BP is 130/80, enter 130. Normal: 90–120</p>
+          <input type="number" name="trestbps" min="60" max="250"
+                 placeholder="e.g. 130">
+        </div>
+
+        <!-- Cholesterol — OPTIONAL -->
+        <div class="field optional-field">
+          <label>
+            <span class="badge optional-badge">◇ Optional</span>
+            Cholesterol level (mg/dL)
+          </label>
+          <p class="hint">From blood test report. Normal: below 200</p>
+          <input type="number" name="chol" min="100" max="600"
+                 placeholder="e.g. 220">
+        </div>
+
+        <!-- Blocked vessels — OPTIONAL -->
+        <div class="field optional-field">
+          <label>
+            <span class="badge optional-badge">◇ Optional</span>
+            Has a doctor told you about blocked heart blood vessels?
+          </label>
+          <p class="hint">From a heart scan or angiogram</p>
+          <select name="ca">
+            <option value="">-- Skip / Don't know --</option>
+            <option value="0">No blockage found</option>
+            <option value="1">1 vessel blocked</option>
+            <option value="2">2 vessels blocked</option>
+            <option value="3">3 or more vessels blocked</option>
+          </select>
+        </div>
+
+        <!-- Thalassemia / blood flow — OPTIONAL -->
+        <div class="field optional-field">
+          <label>
+            <span class="badge optional-badge">◇ Optional</span>
+            Heart blood flow test result (Thallium scan)
+          </label>
+          <p class="hint">A nuclear stress test — skip if never done</p>
+          <select name="thal">
+            <option value="">-- Skip / Never done --</option>
+            <option value="1">Normal blood flow</option>
+            <option value="2">Fixed defect (permanent damage)</option>
+            <option value="3">Reversible defect (reduces during stress)</option>
+          </select>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════ SECTION 5: Health History ════════════ -->
+    <section class="form-section">
+      <div class="section-title">📋 Health History</div>
+
+      <div class="field-grid">
+
+        <!-- Diabetes — OPTIONAL -->
+        <div class="field optional-field">
+          <label>
+            <span class="badge optional-badge">◇ Optional</span>
+            Has a doctor ever said you have diabetes or high blood sugar?
+          </label>
+          <div class="pill-group">
+            <input type="radio" name="fbs" id="fbs-y" value="1">
+            <label for="fbs-y" class="pill">Yes</label>
+            <input type="radio" name="fbs" id="fbs-n" value="0">
+            <label for="fbs-n" class="pill">No</label>
+            <input type="radio" name="fbs" id="fbs-dk" value="">
+            <label for="fbs-dk" class="pill pill-skip">Don't know</label>
+          </div>
+        </div>
+
+        <!-- ECG — OPTIONAL -->
+        <div class="field optional-field">
+          <label>
+            <span class="badge optional-badge">◇ Optional</span>
+            Have you been told your ECG / EKG was abnormal?
+          </label>
+          <div class="pill-group">
+            <input type="radio" name="restecg" id="ecg-n" value="0">
+            <label for="ecg-n" class="pill">No / Normal</label>
+            <input type="radio" name="restecg" id="ecg-s" value="1">
+            <label for="ecg-s" class="pill">Slightly abnormal</label>
+            <input type="radio" name="restecg" id="ecg-a" value="2">
+            <label for="ecg-a" class="pill">Significantly abnormal</label>
+            <input type="radio" name="restecg" id="ecg-dk" value="">
+            <label for="ecg-dk" class="pill pill-skip">Never had one</label>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Submit ── -->
+    <div class="submit-wrap">
+      <button type="submit" class="btn-submit">
+        Check My Heart Risk ❤️
+      </button>
+      <p class="submit-note">
+        Unanswered optional questions are filled in automatically using average values from our dataset.
+      </p>
+    </div>
+
+  </form>
+
+  <p class="disclaimer">
+    ⚠️ This tool is for awareness only and is <strong>not a medical diagnosis</strong>.
+    Always consult a doctor or health worker for proper advice.
+  </p>
+
+</div><!-- /page-wrap -->
+
+</body>
+</html>
